@@ -2,7 +2,7 @@ package examples
 
 import scala.annotation.nowarn
 
-@main def quickStart(): Unit =
+@main def quickStart():Unit =
   getting_started
   verified_equality_for_composed_case_classes_via_type_class_derivation
   verified_equality_for_composed_case_classes_with_type_parameters_via_type_class_derivation
@@ -14,7 +14,6 @@ import scala.annotation.nowarn
   collectionExtension
   strict_equality_opt_out_for_an_entire_compilation_unit
   strict_equality_opt_out_for_a_local_scope
-  referenceEquality
   numberEquality
   enums
 
@@ -75,6 +74,7 @@ def verified_equality_for_composed_case_classes_with_type_parameters_via_type_cl
   // Only compiles because class Email derives Eq
   val person = Person("Alice", Email("alice@maluma.osw"))
 
+  // Only compiles because class Person derives Eq
   person == person
 
 case class SomeProduct()
@@ -91,7 +91,7 @@ def verified_equality_for_an_existing_arbitrary_class_with_a_given: Unit =
 @nowarn
 def assumed_equality_for_the_bottom_classes_of_a_class_hierarchy_via_type_class_derivation: Unit =
 
-  abstract class Animal
+  class Animal
   case class Cat() extends Animal derives Eq.assumed
   case class Dog() extends Animal derives Eq.assumed
 
@@ -103,7 +103,7 @@ def assumed_equality_for_the_bottom_classes_of_a_class_hierarchy_via_type_class_
 @nowarn
 def assumed_equality_for_the_base_class_of_a_class_hierarchy_via_type_class_derivation: Unit =
 
-  abstract class Animal derives Eq.assumed
+  class Animal derives Eq.assumed
   case class Cat() extends Animal
   case class Dog() extends Animal
 
@@ -186,27 +186,6 @@ def strict_equality_opt_out_for_a_local_scope: Unit =
 
     // Only compiles because strict equality is disabled
     x1 == x2
-
-
-@nowarn
-def referenceEquality: Unit =
-  import java.time.{LocalDate, LocalDateTime}
-
-  val today = LocalDate.now
-  val now = LocalDateTime.now
-
-  // Compiles because references are not equality-safe
-  today eq now
-
-  val eqRef = EqRef[LocalDate]
-  import eqRef.*
-
-  // Compiles because references are of the same type
-  today equalRef today
-  today notEqualRef today
-
-  // today equalRef now
-  // ERROR: Found (now : LocalDateTime); Required: LocalDate
 
 
 def numberEquality: Unit =
