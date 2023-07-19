@@ -3,7 +3,7 @@ name := "type-safe-equality"
 organization := "example"
 
 name := "$name$"
-libraryDependencies += "ch.produs" %% "type-safe-equality" % "0.5.0"
+libraryDependencies += "ch.produs" %% "type-safe-equality" % "0.6.0"
 scalacOptions += "-language:strictEquality"
-scalacOptions += "-Yimports:scala,scala.Predef,java.lang,equality.all"
+scalacOptions += "-Yimports:scala,scala.Predef,java.lang,equality"
 
